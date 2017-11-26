@@ -244,3 +244,4 @@ function chunkArrayInGroups(arr, size) {
         result.push(temp);
     return result;
 }
+
