@@ -146,6 +146,8 @@ Dog.prototype = {
 
 Dog.prototype.isPrototypeOf(beagle); // return true shows Dog is the prototype of beagle
 
+// end of file
+
 
 
 
