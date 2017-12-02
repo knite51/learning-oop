@@ -30,7 +30,10 @@ function reverseString(str) {
 reverseString("hello");
 
 //Note : using a for loop like this (for(var i in str)) in an array or strings
-// returns the indexno of elements of str BUT in an object, returns the keys/property of such object
+// returns the index no of elements of str BUT in an object, returns the keys/property of such 
+// Note: difference btw for(var i in str) and for(var i = 0; i < str.length; i++)
+// variable i for the former is in string format ('0','1','2') 
+// in the latter in number format. (0,1,2) 
 
 
 //3 factorial (5! = 5*4*3*2*1 = 120)
@@ -245,3 +248,86 @@ function chunkArrayInGroups(arr, size) {
     return result;
 }
 
+
+//13. Count vowels in a word
+function getCount(str) {
+    var regex = /[aeiou]/ig;
+    var ans = str.match(regex);
+    var vowelsCount;
+    if(ans !== null){
+     vowelsCount = ans.length;
+    }else{
+        vowelsCount = 0; 
+    }
+    
+
+    return vowelsCount;
+}
+
+// 14  sum of the two lowest positive numbers given an array
+function sumTwoSmallestNumbers(numbers) {
+    var sorted = numbers.sort((a, b) => {
+        return a - b;
+    });
+    var ans = sorted[0] + sorted[1];
+    return ans;
+};
+
+// 15  function that takes a string and return a new string with all vowels removed.
+function disemvowel(str) {
+    var regex = /[^aeiou]/ig;
+    var ans = str.match(regex);
+    return ans.join("");
+}
+
+// 16. An isogram is a word that has no repeating letters, 
+// consecutive or non-consecutive.  Assume the empty string is an isogram. Ignore letter case.
+function isIsogram(word) {
+    var newWord = word.toLowerCase().split('').sort().join('');
+    for (var i = 0; i < word.length; i++) {
+        if (newWord[i] === newWord[i + 1]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// 17. Returns a new list with the strings filtered out.
+function filter_list(arr) {
+    var ans = arr.filter(x => {
+        return typeof x === 'number';
+    })
+    return ans;
+}
+
+//18 Write a function, persistence, that takes in a positive parameter num and 
+// returns its multiplicative persistence, which is the number of times you must 
+// multiply the digits in num until you reach a single digit.
+persistence(39) === 3 // because 3*9 = 27, 2*7 = 14, 1*4=4
+// and 4 has only one digit
+
+persistence(999) === 4 // because 9*9*9 = 729, 7*2*9 = 126,
+// 1*2*6 = 12, and finally 1*2 = 2
+
+persistence(4) === 0 // because 4 is already a one-digit number
+function persistence(num) {
+    function mul(n) {
+        return n.reduce((a, b) => { return a * b; });
+    }
+    var count = 0;
+    while (num.toString().length > 1) {
+        num = num.toString().split("");
+        num = mul(num);
+        count++;
+    }
+    return count;
+}
+
+//or
+function persistence(num) {
+    var i = 0;
+    for (i; num.toString().length > 1; i++) {
+        num = num.toString().split('').reduce(function (x, y) { return x * y });
+    }
+    return i;
+}

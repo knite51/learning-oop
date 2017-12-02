@@ -76,7 +76,8 @@ function Dog(name, color) {
 
 var dodger = new Dog('doger', 'brown');
 
-//instanceof allows you to compare an object to a constructor, returning true or false based on whether or not that object was created with the constructor. 
+//instanceof allows you to compare an object to a constructor, returning true or false 
+// based on whether or not that object was created with the constructor. 
 dodger instanceof Dog //returns true;
 //OR
 dodger.constructor === Dog; 
@@ -146,8 +147,191 @@ Dog.prototype = {
 
 Dog.prototype.isPrototypeOf(beagle); // return true shows Dog is the prototype of beagle
 
-// end of file
+class Cat {
+    constructor(name) {
+        this.name = name;
+    }
+}
+function Animal() { }
+
+Animal.prototype = {
+    constructor: Animal,
+    eat: function () {
+        console.log("nom nom nom");
+    }
+};
+
+Cat.prototype = Object.create(Animal.prototype);
+Dog.prototype = Object.create(Animal.prototype); //all Dog instances inherits this as well
+Cat.prototype.constructor = Cat; //this is done to reset the inherited constructor 
+// property back to the original constructor. if not done, Cats instances inherits
+// constructor from Animal supertype.
+let dodger = new Cat('hate') 
+dodger.eat(); // Should print "nom nom nom" 
+
+
+
+//adding methods after inheritance
+function Animal() { }
+Animal.prototype.eat = function () { console.log("nom nom nom"); };
+
+function Dog() {
+}
+
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+
+Dog.prototype.bark = function () {
+    console.log("woof");
+};
+
+let beagle = new Dog();
+
+beagle.eat(); // Should print "nom nom nom"
+beagle.bark(); // Should print "Woof!"
+
+//to overwrite an inherited method, create a method for the childobject and
+// name it as parentObject method
+Dog.prototype.eat =function(){
+    console.log("no not hungry");
+}
+//how JS sees it
+//If you have an instance let duck = new Bird(); and you call duck.eat(), this is how JavaScript looks for the method on duck’s prototype chain:
+//1. beagle => Is eat() defined here ? No.
+//2. Dog => Is eat() defined here ? => Yes.Execute it and stop searching.
+//3. Animal => eat() is also defined, but JavaScript stopped searching before reaching this level.
+//4. Object => JavaScript stopped searching before reaching this level.
+
+
+
+// When properties are shared by unrelated Objects, a Mixin is used.
+
+let bird = {
+    name: "Donald",
+    numLegs: 2
+};
+
+let boat = {
+    name: "Warrior",
+    type: "race-boat"
+};
+
+// Add your code below this line
+let glideMixin = function (obj) {
+    obj.glide = function () {
+        console.log("am gliding");
+    };
+};
+
+glideMixin(bird);
+glideMixin(boat);
+
+bird.glide(); // am gliding
+boat.glide();
+
+
+//Use Closure to Protect Properties Within an Object from Being Modified Externally
+function Bird() {
+    let weight = 15;
+    this.getWeight = function () {
+        return weight;
+    };
+
+}
+
+let hen = new Bird();
+hen.getWeight(); //15
+
+// immediately invoked function expression or IIFE.
+// allow a function to be executed immediately its declared.
+
+(function () {
+    console.log("A cozy nest is ready");
+})();
+
+
+//Use an IIFE to Create a Module
+
+let funModule = (function () {
+    return {
+        isCuteMixin(obj) {
+            obj.cute = function () {
+                return true;
+            };
+        },
+        singMixin(obj) {
+            obj.sing = function () {
+                console.log("Singing to an awesome tune");
+            };
+        }
+    };
+})();
+funModule.singMixin(dog); //dog is an instance of a constructor function
+dog.sing(); //Singing to an awesome tune
+
+//or i could just create an object
+let tryout = {
+    isCuteMixin(obj) {
+        obj.cute = function () {
+            return true;
+        };
+    },
+    singMixin(obj) {
+        obj.sing = function () {
+            console.log("Singing to an awesome tune");
+        };
+    }
+};
+tryout.isCuteMixin(dog);
+dog.sing(); //Singing to an awesome tune
+
+//object created with it contents is called an object .literal
 
 
 
 
+
+class ShoppingCart {
+  constructor(){
+    this.total = 0;
+    this.items = {};
+  }
+  addItem(itemName, quantity, price){
+    this.total += price * quantity;
+      if (this.items[itemName] !== undefined){
+        this.items[itemName] += quantity;
+      }else{
+        this.items[itemName] = quantity;
+      }
+      
+    }
+  removeItem(itemName,quantity,price){
+        this.total -= price * quantity;
+         if(this.items.hasOwnProperty(itemName)){
+            this.items[itemName] -= quantity;
+          }else{
+            delete this.items[itemName];
+          }
+      }
+  checkout(cashPaid){
+   let balance =  cashPaid - this.total; 
+    if(balance >= 0){
+      return balance;
+    }else{
+      balance = "Cash paid not enough";
+      return balance;
+    }
+  }
+}
+
+class Shop extends ShoppingCart {
+  constructor(){
+    super();
+    this.quantity = 100;
+  }
+  removeItem(){
+    this.quantity--;
+  }
+}
+    
+  

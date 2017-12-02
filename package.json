@@ -1,0 +1,28 @@
+{
+  "name": "codingx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "#30days.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knite51/learning-oop.git"
+  },
+  "keywords": [
+    "oop"
+  ],
+  "author": "seyi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/knite51/learning-oop/issues"
+  },
+  "homepage": "https://github.com/knite51/learning-oop#readme",
+  "dependencies": {
+    "eslint": "^4.12.1"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^12.1.0"
+  }
+}
